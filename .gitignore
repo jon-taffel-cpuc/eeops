@@ -1,0 +1,30 @@
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+venv/
+.venv/
+
+# deploy/02_build_image_laptop.py output (crane, wheels, layer tarball)
+.build/
+
+# Local secrets / env (the app needs none -- auth is Snowflake's)
+.env
+.env.local
+.env.*.local
+
+# Editor / OS / Snowflake workspace artifacts
+.DS_Store
+.vscode/
+.idea/
+.folder
+
+# NOTE: static/ (the built SPA) MUST be committed -- the laptop image build packs it.
+# NOTE: .deploy_manifest.json MUST be committed -- 01 uses it to detect changes.

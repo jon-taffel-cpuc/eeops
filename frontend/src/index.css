@@ -1,0 +1,769 @@
+/* ==========================================================================
+   EE Ops design system -- ported from Canopy (frontend/src/index.css).
+   Keep class names identical to Canopy so its components can be lifted over
+   without restyling. Fonts are self-hosted (@fontsource, imported in
+   main.tsx): the SPCS ingress sends CSP default-src 'self', so Google Fonts
+   (or any other CDN) get blocked.
+   ========================================================================== */
+
+:root {
+  font-family: 'Public Sans', 'Source Sans Pro', 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.55;
+  font-weight: 400;
+  color: #1a2a3a;
+  background: linear-gradient(180deg, #f4f6f8 0%, #ffffff 100%);
+  /* CPUC palette -- navy/blue primary, gold accent, federal-style neutrals */
+  --bg: #f4f6f8;
+  --panel: #ffffff;
+  --panel-border: #d6dde4;
+  --ink: #1a2a3a;
+  --muted: #506172;
+  --faint: #7c8a9a;
+  --navy: #0c4a8c;
+  --navy-strong: #082f5c;
+  --navy-soft: #e6eef7;
+  --blue: #1469b8;
+  --blue-soft: #e0ecf8;
+  --gold: #f4b223;
+  --gold-soft: #fff4d6;
+  --amber: #c97a00;
+  --emerald: #1f7a4d;
+  --rose: #b91c1c;
+  --plum: #5a347a;
+  --hairline: #e1e6eb;
+  --shadow: 0 6px 18px rgba(12, 74, 140, 0.10);
+  --shadow-soft: 0 1px 6px rgba(12, 74, 140, 0.05);
+  --radius-lg: 6px;
+  --radius-md: 4px;
+  --radius-sm: 3px;
+  --banner-h: 1.9rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--ink);
+  background: transparent;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  margin: 0;
+}
+
+button {
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+pre,
+code,
+.mono-cell,
+.mono-pill {
+  font-family: 'IBM Plex Mono', 'Cascadia Code', monospace;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* --------------------------------------------------------------------------
+   App shell: gold banner, navy sidebar, white topbar with gold rule
+   -------------------------------------------------------------------------- */
+
+.prototype-banner {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 60;
+  height: var(--banner-h);
+  background: var(--gold);
+  color: #2a1f00;
+  text-align: center;
+  padding: 0.45rem 1rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #d99a00;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eeops-app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 17rem minmax(0, 1fr);
+  padding-top: var(--banner-h);
+}
+
+.sidebar {
+  background: var(--navy);
+  color: #f4f8ff;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--banner-h));
+  border-right: 1px solid var(--navy-strong);
+  position: sticky;
+  top: var(--banner-h);
+}
+
+.sidebar-brand,
+.sidebar-footer {
+  padding: 1.35rem 1.25rem;
+}
+
+.sidebar-brand {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.brand-mark {
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  border-left: 4px solid var(--gold);
+  padding-left: 0.6rem;
+}
+
+.brand-copy {
+  margin-top: 0.4rem;
+  color: #c9d8ed;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.nav-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem 0.85rem;
+  display: grid;
+  gap: 0.2rem;
+  align-content: start;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  border-radius: 14px;
+  padding: 0.85rem 0.95rem;
+  color: rgba(244, 248, 255, 0.92);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: left;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-link.is-active,
+.nav-link.active {
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: inset 3px 0 0 #60a5fa;
+}
+
+.nav-icon,
+.nav-icon svg {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+}
+
+.nav-badge {
+  margin-left: auto;
+  padding: 0.12rem 0.42rem;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.12);
+  color: #fcd34d;
+}
+
+.sidebar-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.user-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  font-weight: 800;
+  background: #1d4ed8;
+  color: white;
+}
+
+.user-name {
+  font-size: 0.94rem;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.user-role {
+  font-size: 0.72rem;
+  color: #9ac0f0;
+}
+
+.sidebar-version {
+  padding: 0 1.25rem 1rem;
+  font-size: 0.68rem;
+  color: rgba(201, 216, 237, 0.7);
+}
+
+.main-shell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.topbar {
+  position: sticky;
+  top: var(--banner-h);
+  z-index: 30;
+  background: #ffffff;
+  border-bottom: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.4rem;
+}
+
+.topbar-left,
+.toolbar-row,
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.topbar-left {
+  min-width: 0;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.breadcrumb svg {
+  width: 0.85rem;
+  height: 0.85rem;
+  color: #94a3b8;
+  flex: 0 0 auto;
+}
+
+.breadcrumb-link {
+  color: var(--muted);
+}
+
+.breadcrumb-link:hover {
+  color: var(--blue);
+}
+
+.breadcrumb-current {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--navy);
+  font-weight: 700;
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  letter-spacing: -0.02em;
+}
+
+.view-shell {
+  flex: 1;
+  padding: 1.5rem;
+}
+
+.nav-scrim {
+  display: none;
+}
+
+/* --------------------------------------------------------------------------
+   Page layout
+   -------------------------------------------------------------------------- */
+
+.page-stack {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.page-header-row,
+.panel-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.page-title {
+  margin: 0;
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+
+.page-subtitle,
+.section-copy,
+.muted-text,
+.tiny-copy,
+.detail-label {
+  color: var(--muted);
+}
+
+.page-subtitle,
+.section-copy {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.narrow-copy {
+  max-width: 48rem;
+}
+
+.tiny-copy {
+  font-size: 0.8rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 1.25rem;
+}
+
+.panel-padless {
+  padding: 0;
+  overflow: hidden;
+}
+
+.panel-padless .panel-header {
+  padding: 1.15rem 1.25rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+/* Body of a .panel-padless that isn't a table (avoids nesting .panel in .panel). */
+.panel-body {
+  padding: 1.25rem;
+}
+
+.panel-title,
+.section-heading {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--ink);
+}
+
+.stats-grid,
+.dashboard-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.stats-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.dashboard-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.span-two {
+  grid-column: span 2;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem 1.2rem;
+}
+
+.detail-label {
+  margin-bottom: 0.2rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.detail-value {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.empty-state {
+  padding: 3.2rem 1rem;
+  text-align: center;
+  color: var(--faint);
+}
+
+.empty-state .section-heading {
+  color: var(--muted);
+  margin-bottom: 0.35rem;
+}
+
+/* --------------------------------------------------------------------------
+   Controls
+   -------------------------------------------------------------------------- */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.6rem;
+  padding: 0.72rem 1rem;
+  border-radius: 999px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: transform 120ms ease, background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+  position: relative;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.button svg {
+  width: 0.95rem;
+  height: 0.95rem;
+}
+
+.button-primary {
+  background: var(--navy);
+  color: white;
+  box-shadow: var(--shadow-soft);
+}
+
+.button-primary:hover:not(:disabled) {
+  background: var(--navy-strong);
+}
+
+.button-secondary,
+.button-icon {
+  background: white;
+  color: var(--navy);
+  border: 1px solid var(--panel-border);
+}
+
+.button-secondary:hover:not(:disabled),
+.button-icon:hover:not(:disabled) {
+  background: var(--navy-soft);
+  border-color: var(--navy);
+}
+
+.button-small {
+  min-height: 2.15rem;
+  padding: 0.52rem 0.8rem;
+  font-size: 0.8rem;
+}
+
+.button-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: 16px;
+}
+
+.mobile-only {
+  display: none;
+}
+
+.tab-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid rgba(203, 213, 225, 0.95);
+}
+
+.tab-button {
+  padding: 0.8rem 1rem;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tab-button.is-active {
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+/* --------------------------------------------------------------------------
+   Tables, tags, pills
+   -------------------------------------------------------------------------- */
+
+.table-panel {
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.data-table th {
+  background: #f8fafc;
+  color: var(--faint);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0.95rem 1rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.9);
+}
+
+.data-table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  vertical-align: top;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.38rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background: #e2ecf8;
+  color: #2b4b74;
+}
+
+.pill-warn {
+  background: #fef3c7;
+  color: #a16207;
+}
+
+.mono-pill {
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 0.72rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.badge-muted {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.badge-emerald {
+  background: #d1fae5;
+  color: #047857;
+}
+
+.badge-amber {
+  background: #fef3c7;
+  color: #a16207;
+}
+
+.badge-blue {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.badge-rose {
+  background: #ffe4e6;
+  color: #b91c1c;
+}
+
+.badge-plum {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+/* --------------------------------------------------------------------------
+   Loading + errors
+   -------------------------------------------------------------------------- */
+
+.loading-panel {
+  max-width: 32rem;
+}
+
+.loading-bar {
+  width: 100%;
+  height: 0.6rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dbeafe;
+}
+
+.loading-bar span {
+  display: block;
+  width: 35%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2563eb 0%, #38bdf8 100%);
+  animation: sweep 1.4s ease-in-out infinite;
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+.error-block {
+  margin: 0;
+  overflow: auto;
+  border-radius: 16px;
+  padding: 0.95rem 1rem;
+  background: #7f1d1d;
+  color: #fee2e2;
+  white-space: pre-wrap;
+}
+
+.notice {
+  border-radius: var(--radius-md);
+  padding: 0.8rem 1rem;
+  font-size: 0.88rem;
+  background: var(--gold-soft);
+  border: 1px solid #f5d27a;
+  color: #6b4a00;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive (same breakpoints as Canopy)
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 1180px) {
+  .stats-grid,
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 980px) {
+  .eeops-app {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: fixed;
+    inset: var(--banner-h) auto 0 0;
+    height: auto;
+    width: min(20rem, 86vw);
+    transform: translateX(-102%);
+    transition: transform 180ms ease;
+    z-index: 40;
+    box-shadow: var(--shadow);
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .nav-scrim.is-open {
+    display: block;
+    position: fixed;
+    inset: var(--banner-h) 0 0 0;
+    z-index: 35;
+    background: rgba(8, 47, 92, 0.35);
+  }
+
+  .mobile-only {
+    display: inline-flex;
+  }
+
+  .stats-grid,
+  .dashboard-grid,
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .span-two {
+    grid-column: span 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .topbar,
+  .view-shell {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .page-header-row,
+  .panel-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

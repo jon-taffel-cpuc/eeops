@@ -1,0 +1,8 @@
+# Runtime dependencies baked into the SPCS image by deploy/02_build_image_laptop.py
+# (Linux x86_64 / CPython 3.11 wheels, --only-binary). Every package here must
+# publish a manylinux wheel. Majors are capped so a laptop rebuild can't pull a
+# breaking release; raise a cap only after running tests/.
+fastapi>=0.115,<1
+uvicorn[standard]>=0.32,<1
+pydantic>=2.9,<3
+snowflake-connector-python>=3.12,<5
