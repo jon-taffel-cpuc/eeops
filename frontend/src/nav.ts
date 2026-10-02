@@ -6,8 +6,11 @@ import type { IconName } from './components/Icon';
 
 export type PageKey =
   | 'customers-markets'
+  | 'potentials-goals'
   | 'ex-ante-custom'
+  | 'tools-calculators'
   | 'programs-performance'
+  | 'evaluations'
   | 'grid-details'
   | 'policies-proceedings'
   | 'cpuc-admin';
@@ -31,6 +34,13 @@ export const NAV: NavItem[] = [
     subtitle: 'Page scope in development.',
   },
   {
+    key: 'potentials-goals',
+    path: '/potentials-goals',
+    label: 'Potentials and Goals',
+    icon: 'potentials',
+    subtitle: 'Page scope in development.',
+  },
+  {
     key: 'ex-ante-custom',
     path: '/ex-ante-custom',
     label: 'Ex Ante/Custom',
@@ -38,10 +48,24 @@ export const NAV: NavItem[] = [
     subtitle: 'Page scope in development.',
   },
   {
+    key: 'tools-calculators',
+    path: '/tools-calculators',
+    label: 'Tools and Calculators',
+    icon: 'tools',
+    subtitle: 'Page scope in development.',
+  },
+  {
     key: 'programs-performance',
     path: '/programs-performance',
     label: 'Programs and Performance',
     icon: 'programs',
+    subtitle: 'Page scope in development.',
+  },
+  {
+    key: 'evaluations',
+    path: '/evaluations',
+    label: 'Evaluations',
+    icon: 'evaluations',
     subtitle: 'Page scope in development.',
   },
   {

@@ -3,8 +3,11 @@ import { Navigate, Route, Routes } from 'react-router';
 import Layout from './components/Layout';
 import { DEFAULT_PATH, NAV, type PageKey } from './nav';
 import CustomersMarkets from './pages/CustomersMarkets';
+import PotentialsGoals from './pages/PotentialsGoals';
 import ExAnteCustom from './pages/ExAnteCustom';
+import ToolsCalculators from './pages/ToolsCalculators';
 import ProgramsPerformance from './pages/ProgramsPerformance';
+import Evaluations from './pages/Evaluations';
 import GridDetails from './pages/GridDetails';
 import PoliciesProceedings from './pages/PoliciesProceedings';
 import CpucAdmin from './pages/CpucAdmin';
@@ -14,8 +17,11 @@ import NotFound from './pages/NotFound';
 // nav entry has no page here (or vice versa).
 const PAGES: Record<PageKey, ComponentType> = {
   'customers-markets': CustomersMarkets,
+  'potentials-goals': PotentialsGoals,
   'ex-ante-custom': ExAnteCustom,
+  'tools-calculators': ToolsCalculators,
   'programs-performance': ProgramsPerformance,
+  'evaluations': Evaluations,
   'grid-details': GridDetails,
   'policies-proceedings': PoliciesProceedings,
   'cpuc-admin': CpucAdmin,

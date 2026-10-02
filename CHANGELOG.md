@@ -1,5 +1,26 @@
 # EE Ops Changelog
 
+## [0.1.2] — 2026-10-02
+
+**Bump type:** patch (frontend-only changes) — 4 files changed
+
+### Frontend
+- Updated `frontend/src/App.tsx`
+- Updated `frontend/src/components/Icon.tsx`
+- Updated `frontend/src/nav.ts`
+- Updated `frontend/src/pages/ToolsCalculators.tsx`
+
+## [0.1.1] — 2026-10-02
+
+**Bump type:** patch (frontend-only changes) — 5 files changed
+
+### Frontend
+- Updated `frontend/src/App.tsx`
+- Updated `frontend/src/components/Icon.tsx`
+- Updated `frontend/src/nav.ts`
+- Updated `frontend/src/pages/Evaluations.tsx`
+- Updated `frontend/src/pages/PotentialsGoals.tsx`
+
 ## [0.1.0] — 2026-10-02
 
 **Bump type:** minor (schema or config changes detected) — 35 files changed
