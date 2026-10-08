@@ -8,10 +8,15 @@ token file) or set SNOWFLAKE_CONNECTION_NAME to a connections.toml entry.
 
 All EE Ops objects in CPUC_ED_DB.ENERGY_EFFICIENCY are prefixed EEOPS_ --
 the schema is shared with CET_APP, CMS_APP and Canopy.
+
+AMI source data (Recurve tables, read-only) lives in a separate shared
+database -- EXT_CEC_PRD_AMIDATA_DB.CPUC_SHARE_SC by default -- and is named
+with amidata(), never fq().
 """
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass
 from functools import lru_cache
 from typing import Optional
@@ -28,6 +33,8 @@ class SnowflakeConfig:
     role: Optional[str] = None
     connection_name: Optional[str] = None
     table_prefix: str = "EEOPS_"
+    amidata_database: str = "EXT_CEC_PRD_AMIDATA_DB"
+    amidata_schema: str = "CPUC_SHARE_SC"
 
     @classmethod
     def from_env(cls) -> "SnowflakeConfig":
@@ -40,6 +47,8 @@ class SnowflakeConfig:
             token_file=os.environ.get("SNOWFLAKE_TOKEN_FILE_PATH", "/snowflake/session/token"),
             role=os.environ.get("EEOPS_ROLE") or None,
             connection_name=os.environ.get("SNOWFLAKE_CONNECTION_NAME") or None,
+            amidata_database=os.environ.get("EEOPS_AMIDATA_DATABASE", "EXT_CEC_PRD_AMIDATA_DB"),
+            amidata_schema=os.environ.get("EEOPS_AMIDATA_SCHEMA", "CPUC_SHARE_SC"),
         )
 
     @property
@@ -49,6 +58,17 @@ class SnowflakeConfig:
     def fq(self, name: str) -> str:
         """Fully-qualified name for an EE Ops object: fq('NOTES') -> CPUC_ED_DB.ENERGY_EFFICIENCY.EEOPS_NOTES."""
         return f"{self.qualified_schema}.{self.table_prefix}{name.upper()}"
+
+    def amidata(self, table: str) -> str:
+        """Fully-qualified name of a read-only AMI source table (code constants only):
+        amidata('RECURVE_METER') -> EXT_CEC_PRD_AMIDATA_DB.CPUC_SHARE_SC.RECURVE_METER."""
+        parts = (self.amidata_database, self.amidata_schema, table)
+        if not all(_IDENT.fullmatch(p) for p in parts):
+            raise RuntimeError(f"Invalid AMI data identifier in {parts}")
+        return ".".join(p.upper() for p in parts)
+
+
+_IDENT = re.compile(r"[A-Za-z_][A-Za-z0-9_$]*")
 
 
 @lru_cache(maxsize=1)

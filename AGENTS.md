@@ -46,7 +46,8 @@ on CET_2, Canopy or CMS.
 | `api/routes/*.py` | One router per area, mounted under `/api/v1/<area>` |
 | `eeops/db.py` | **The only module that talks to Snowflake**; bind params only |
 | `eeops/config.py` | Connection settings + `fq()` for `EEOPS_` object names |
-| `deploy/` | 00–06 pipeline; `deploy/sql/` for idempotent DDL |
+| `eeops/interval_data.py` | Consumption page (interval data): address search + AMI series. Reads only the sorted `EEOPS_PGE_*` copies — **never query the Recurve share (`EXT_CEC_PRD_AMIDATA_DB`) per request** (6 TB, unclustered: every query is a full scan) |
+| `deploy/` | 00–06 pipeline; `deploy/sql/` for idempotent DDL (`12_interval_initial_load.sql` is a manual one-time load, not run by `00`) |
 
 ## Rules for changes
 

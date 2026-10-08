@@ -4,7 +4,7 @@
 -- Creates what the app needs *before* the first image is pushed:
 --   1. Image repository            CPUC_ED_DB.ENERGY_EFFICIENCY.EEOPS_IMAGES
 --   2. Compute pool check          CPUC_ED_SNOWPARK_POOL (shared with CET_APP, CMS_APP)
---   3. Schema objects              deploy/sql/1x_*.sql (none yet -- see below)
+--   3. Schema objects              deploy/sql/1x_*.sql
 --
 -- The SERVICE itself is created by 03_redeploy_sf.sql once an image exists
 -- (CREATE SERVICE needs a pushed image; 03 does CREATE IF NOT EXISTS + ALTER).
@@ -36,10 +36,16 @@ DESCRIBE COMPUTE POOL CPUC_ED_SNOWPARK_POOL;
 SHOW SERVICES IN COMPUTE POOL CPUC_ED_SNOWPARK_POOL;
 
 -- 3. Schema objects ---------------------------------------------------------
--- None yet. When a page needs tables, add an idempotent file under
--- deploy/sql/ (see deploy/sql/README.md) and run it from here, e.g.:
--- EXECUTE IMMEDIATE FROM 'snow://workspace/USER$.PUBLIC."eeops"/versions/live/deploy/sql/10_eeops_tables.sql';
--- (The workspace name is lower-case "eeops", so it must stay double-quoted.)
+-- One idempotent file per area (see deploy/sql/README.md). The workspace
+-- name is lower-case "eeops", so it must stay double-quoted.
+
+-- Interval page: tables, refresh procedure, suspended monthly task. Creating
+-- them is cheap; LOADING them is a separate, one-time, manual step:
+-- deploy/sql/12_interval_initial_load.sql (not run from here -- it scans 6 TB).
+EXECUTE IMMEDIATE FROM 'snow://workspace/USER$.PUBLIC."eeops"/versions/live/deploy/sql/11_interval_tables.sql';
+
+-- Raw upload stage (parcels/, weather/, ...) + file formats. Empty.
+EXECUTE IMMEDIATE FROM 'snow://workspace/USER$.PUBLIC."eeops"/versions/live/deploy/sql/14_raw_landing.sql';
 
 -- Next: 01_auto_deploy_sf.sh (CoCo) -> 02 (laptop) -> 03 -> 05 -> 04.
 

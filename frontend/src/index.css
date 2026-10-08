@@ -701,6 +701,403 @@ code,
 }
 
 /* --------------------------------------------------------------------------
+   Form fields
+   -------------------------------------------------------------------------- */
+
+.inline-field {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.inline-field .detail-label {
+  margin-bottom: 0;
+}
+
+.field-select,
+.field-date {
+  min-height: 2.15rem;
+  padding: 0.35rem 0.6rem;
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-md);
+  background: white;
+  color: var(--ink);
+  font-size: 0.85rem;
+  max-width: 26rem;
+}
+
+.field-select:focus,
+.field-date:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-soft);
+}
+
+.segmented {
+  display: inline-flex;
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  overflow: hidden;
+  background: white;
+}
+
+.segmented button {
+  padding: 0.45rem 0.85rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--navy);
+  border-right: 1px solid var(--panel-border);
+}
+
+.segmented button:last-child {
+  border-right: 0;
+}
+
+.segmented button:hover:not(.is-active) {
+  background: var(--navy-soft);
+}
+
+.segmented button.is-active {
+  background: var(--navy);
+  color: white;
+}
+
+.toolbar-wrap {
+  flex-wrap: wrap;
+  align-items: end;
+}
+
+.center-copy {
+  margin: 0 auto;
+}
+
+.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.compact-table td {
+  padding: 0.65rem 1rem;
+  font-size: 0.88rem;
+}
+
+.data-table tr.is-selected td {
+  background: var(--blue-soft);
+}
+
+/* --------------------------------------------------------------------------
+   Consumption page: address search
+   -------------------------------------------------------------------------- */
+
+.address-search {
+  display: grid;
+  gap: 0.35rem;
+}
+
+/* The dropdown hangs off the input row, not the whole block (label + hint). */
+.search-anchor {
+  position: relative;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-lg);
+  background: white;
+  color: var(--faint);
+}
+
+.search-field:focus-within {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-soft);
+}
+
+.search-field > svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: 0 0 auto;
+}
+
+.search-field input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--ink);
+  font-size: 1.05rem;
+}
+
+.search-field input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.search-clear {
+  display: inline-flex;
+  color: var(--faint);
+  padding: 0.15rem;
+  border-radius: 999px;
+}
+
+.search-clear:hover {
+  color: var(--navy);
+  background: var(--navy-soft);
+}
+
+.search-clear svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.search-spinner {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  border: 2px solid var(--blue-soft);
+  border-top-color: var(--blue);
+  border-radius: 999px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.search-results {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 0.3rem);
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: 0.3rem;
+  list-style: none;
+  max-height: 24rem;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.search-empty {
+  padding: 0.9rem 1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.search-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+
+.search-option.is-active {
+  background: var(--navy-soft);
+}
+
+.search-option-main {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.search-option-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.search-hint {
+  font-size: 0.8rem;
+  color: var(--faint);
+}
+
+/* --------------------------------------------------------------------------
+   Consumption page: chart + stats
+   -------------------------------------------------------------------------- */
+
+.chart-toolbar {
+  flex-wrap: wrap;
+  align-items: end;
+}
+
+.chart-frame {
+  position: relative;
+}
+
+.chart-frame.is-loading .chart-svg {
+  opacity: 0.45;
+}
+
+.chart-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--navy);
+  font-weight: 700;
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+.chart-overlay svg {
+  width: 1rem;
+  height: 1rem;
+  animation: spin 1s linear infinite;
+}
+
+.chart-shell {
+  user-select: none;
+}
+
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 1.2rem;
+  margin-bottom: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.chart-hint {
+  margin-left: auto;
+  color: var(--faint);
+}
+
+.legend-swatch {
+  display: inline-block;
+  width: 1rem;
+  height: 0.22rem;
+  margin-right: 0.4rem;
+  border-radius: 2px;
+  vertical-align: middle;
+}
+
+.legend-delivered {
+  background: var(--navy);
+}
+
+.legend-returned {
+  background: var(--emerald);
+}
+
+.chart-svg {
+  display: block;
+  max-width: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.chart-axis text {
+  font-size: 11px;
+  fill: var(--faint);
+}
+
+.chart-axis .chart-axis-title {
+  font-size: 11px;
+  font-weight: 700;
+  fill: var(--muted);
+}
+
+.chart-grid line {
+  stroke: var(--hairline);
+}
+
+.chart-tick,
+.chart-baseline {
+  stroke: var(--panel-border);
+}
+
+.chart-area-delivered {
+  fill: rgba(12, 74, 140, 0.08);
+}
+
+.chart-line-delivered,
+.chart-line-returned {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.chart-line-delivered {
+  stroke: var(--navy);
+}
+
+.chart-line-returned {
+  stroke: var(--emerald);
+}
+
+.chart-hover-line {
+  stroke: var(--muted);
+  stroke-dasharray: 3 3;
+}
+
+.chart-dot-delivered {
+  fill: var(--navy);
+  stroke: white;
+  stroke-width: 1.5;
+}
+
+.chart-dot-returned {
+  fill: var(--emerald);
+  stroke: white;
+  stroke-width: 1.5;
+}
+
+.chart-brush {
+  fill: rgba(20, 105, 184, 0.12);
+  stroke: var(--blue);
+  stroke-width: 1;
+}
+
+.chart-tooltip {
+  fill: white;
+  stroke: var(--panel-border);
+  filter: drop-shadow(0 2px 6px rgba(12, 74, 140, 0.12));
+}
+
+.chart-tooltip-text {
+  font-size: 12px;
+  fill: var(--ink);
+}
+
+.chart-tooltip-title {
+  font-weight: 700;
+  fill: var(--navy);
+}
+
+.chart-empty {
+  font-size: 14px;
+  fill: var(--faint);
+}
+
+.stat-tile {
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-lg);
+  padding: 0.8rem 1rem;
+  background: #fbfcfd;
+}
+
+.stat-value {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--navy);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
    Responsive (same breakpoints as Canopy)
    -------------------------------------------------------------------------- */
 

@@ -12,6 +12,7 @@ export type PageKey =
   | 'programs-performance'
   | 'evaluations'
   | 'grid-details'
+  | 'consumption'
   | 'policies-proceedings'
   | 'cpuc-admin';
 
@@ -74,6 +75,14 @@ export const NAV: NavItem[] = [
     label: 'Grid Details',
     icon: 'grid',
     subtitle: 'Page scope in development.',
+  },
+  {
+    key: 'consumption',
+    path: '/consumption',
+    label: 'Consumption',
+    icon: 'interval',
+    subtitle: 'Energy consumption by service address. PG&E electric interval data (pilot); bills, gas, weather-normalized end uses and other utilities to follow.',
+    badge: 'Pilot',
   },
   {
     key: 'policies-proceedings',

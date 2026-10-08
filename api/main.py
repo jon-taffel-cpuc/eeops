@@ -22,7 +22,7 @@ import snowflake.connector.errors
 
 from eeops import __version__
 
-from .routes import system
+from .routes import interval, system
 
 
 def create_app() -> FastAPI:
@@ -53,6 +53,7 @@ def create_app() -> FastAPI:
                             content={"detail": f"Snowflake error: {getattr(exc, 'msg', exc)}"})
 
     app.include_router(system.router, prefix="/api/v1", tags=["system"])
+    app.include_router(interval.router, prefix="/api/v1/interval", tags=["interval"])
 
     # deploy/04_verify_sf.sql greps the service log for this exact line.
     print(f"EE Ops backend v{__version__}, frontend v{frontend_version}", flush=True)

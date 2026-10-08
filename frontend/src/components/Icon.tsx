@@ -14,7 +14,10 @@ export type IconName =
   | 'menu'
   | 'logout'
   | 'chevron-right'
-  | 'refresh';
+  | 'refresh'
+  | 'interval'
+  | 'search'
+  | 'close';
 
 const PATHS: Record<IconName, string[]> = {
   customers: [
@@ -47,6 +50,9 @@ const PATHS: Record<IconName, string[]> = {
   logout: ['M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1'],
   'chevron-right': ['M9 5l7 7-7 7'],
   refresh: ['M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15'],
+  interval: ['M3 3v18h18', 'M7 15l4-4 3 3 6-7'],
+  search: ['M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z'],
+  close: ['M6 18L18 6M6 6l12 12'],
 };
 
 export function Icon({ name }: { name: IconName }) {

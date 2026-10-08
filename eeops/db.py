@@ -21,6 +21,7 @@ import time
 from typing import Any, Mapping, Optional, Sequence, Union
 
 import snowflake.connector
+import snowflake.connector.errors
 from snowflake.connector import DictCursor
 
 from .config import SnowflakeConfig, get_config
@@ -65,14 +66,46 @@ def get_connection() -> snowflake.connector.SnowflakeConnection:
     return conn
 
 
-def query(sql: str, params: Params = None) -> list[dict[str, Any]]:
-    """Run a statement and return rows as dicts with lower-case keys."""
+def query(sql: str, params: Params = None, timeout: Optional[int] = None) -> list[dict[str, Any]]:
+    """Run a statement and return rows as dicts with lower-case keys.
+
+    timeout (seconds) cancels the statement server-side -- use it for queries
+    over large shared tables (e.g. AMI interval data) so a slow scan can't tie
+    up a worker indefinitely.
+    """
     cur = get_connection().cursor(DictCursor)
     try:
-        cur.execute(sql, params)
+        cur.execute(sql, params, timeout=timeout)
         return [{k.lower(): v for k, v in row.items()} for row in cur.fetchall()]
     finally:
         cur.close()
+
+
+def execute(sql: str, params: Params = None, timeout: Optional[int] = None) -> int:
+    """Run a DML statement (INSERT/UPDATE/...) and return the affected row count."""
+    cur = get_connection().cursor()
+    try:
+        cur.execute(sql, params, timeout=timeout)
+        return cur.rowcount or 0
+    finally:
+        cur.close()
+
+
+# "Object does not exist or not authorized" -- e.g. a page's EEOPS_ tables
+# before its deploy/sql file has been run.
+_MISSING_OBJECT_ERRNO = 2003
+
+
+def query_if_exists(sql: str, params: Params = None,
+                    timeout: Optional[int] = None) -> Optional[list[dict[str, Any]]]:
+    """query(), but None instead of an error when a referenced object is missing.
+    Only for status checks -- data endpoints should fail loudly."""
+    try:
+        return query(sql, params, timeout=timeout)
+    except snowflake.connector.errors.ProgrammingError as exc:
+        if getattr(exc, "errno", None) == _MISSING_OBJECT_ERRNO:
+            return None
+        raise
 
 
 def ping() -> dict[str, Any]:

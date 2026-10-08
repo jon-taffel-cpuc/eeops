@@ -9,6 +9,7 @@ import ToolsCalculators from './pages/ToolsCalculators';
 import ProgramsPerformance from './pages/ProgramsPerformance';
 import Evaluations from './pages/Evaluations';
 import GridDetails from './pages/GridDetails';
+import Consumption from './pages/Consumption';
 import PoliciesProceedings from './pages/PoliciesProceedings';
 import CpucAdmin from './pages/CpucAdmin';
 import NotFound from './pages/NotFound';
@@ -23,6 +24,7 @@ const PAGES: Record<PageKey, ComponentType> = {
   'programs-performance': ProgramsPerformance,
   'evaluations': Evaluations,
   'grid-details': GridDetails,
+  'consumption': Consumption,
   'policies-proceedings': PoliciesProceedings,
   'cpuc-admin': CpucAdmin,
 };

@@ -8,4 +8,4 @@ Packages:
 Version: kept in sync with frontend/package.json. Only
 deploy/01_auto_deploy_sf.sh bumps it -- do not edit by hand.
 """
-__version__ = "0.1.2"
+__version__ = "0.2.2"

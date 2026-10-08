@@ -47,3 +47,81 @@ export type SnowflakeCheck = {
   backend_version: string;
   session: Record<string, string | null>;
 };
+
+// --- Consumption page, interval data (api/routes/interval.py) ---------------------------------
+export type Resolution = 'interval' | 'hour' | 'day' | 'month';
+
+export type IntervalSourceStatus = {
+  key: string;
+  label: string;
+  unit: string;
+  loaded: boolean;
+  last_refresh: string | null;
+  latest_step: string | null;
+  latest_status: string | null;
+  latest_at: string | null;
+};
+export type IntervalStatus = {
+  tables_exist: boolean;
+  sources: IntervalSourceStatus[];
+  default_source: string;
+};
+
+export type PremiseHit = {
+  premise_id: string;
+  address: string | null;
+  city: string | null;
+  zip: string | null;
+  meter_count: number;
+  last_interval: string | null;
+};
+export type PremiseSearch = { source: string; results: PremiseHit[] };
+
+export type MeterInfo = {
+  meter_key: number;
+  meter_label: string | null;
+  service_point_label: string | null;
+  energy_type: string | null;
+  start_date: string | null;
+  end_date: string | null;
+  first_interval_ms: number | null;
+  last_interval_ms: number | null;
+  interval_rows: number;
+};
+export type PremiseDetail = {
+  source: string;
+  source_label: string;
+  unit: string;
+  premise: PremiseHit;
+  meters: MeterInfo[];
+  data_start_ms: number | null;
+  data_end_ms: number | null;
+};
+
+export type SeriesPoint = {
+  t: number;
+  kwh: number | null;
+  kwh_returned: number | null;
+  peak: number | null;
+  n: number;
+  n_est: number;
+};
+export type SeriesResponse = {
+  source: string;
+  premise_id: string;
+  meter_keys: number[];
+  start_ms: number;
+  end_ms: number;
+  resolution: Resolution;
+  unit: string;
+  unit_label: string;
+  points: SeriesPoint[];
+  totals: {
+    kwh: number;
+    kwh_returned: number;
+    peak_interval_kwh: number | null;
+    peak_bucket_ms: number;
+    intervals: number;
+    estimated_share: number;
+  } | null;
+};
